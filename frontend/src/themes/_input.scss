@@ -1,0 +1,10 @@
+.mat-mdc-form-field {
+  --mat-form-field-outlined-outline-color: var(--app-color-border);
+  --mat-form-field-outlined-hover-outline-color: var(--app-color-muted);
+  --mat-form-field-outlined-focus-outline-color: var(--app-color-muted);
+  --mat-form-field-outlined-label-text-color: var(--app-color-muted);
+  --mat-form-field-outlined-hover-label-text-color: var(--app-color-muted);
+  --mat-form-field-outlined-focus-label-text-color: var(--app-color-muted);
+  --mat-form-field-filled-caret-color: var(--app-color-muted);
+  --mat-form-field-outlined-input-text-color: var(--app-color-text);
+}
