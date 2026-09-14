@@ -1,1 +1,19 @@
-<p>chat works!</p>
+<div class="chat">
+  <div class="chat__header">
+    @if (selectedUser(); as user) {
+      <app-chat-header
+        [user]="user"
+        (backClicked)="onBackClicked()"
+        (menuItemSelected)="onMenuItemSelected($event)"
+      />
+    }
+  </div>
+
+  <div class="chat__message">
+    <app-chat-message />
+  </div>
+
+  <div class="chat__composer">
+    <app-chat-composer />
+  </div>
+</div>

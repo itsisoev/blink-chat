@@ -1,0 +1,16 @@
+.mat-mdc-menu-panel {
+  background-color: var(--app-color-background) !important;
+  border: 1px solid var(--app-color-border);
+}
+
+.mat-mdc-menu-item {
+  color: var(--app-color-text) !important;
+
+  .mat-icon {
+    color: var(--app-color-muted) !important;
+  }
+
+  &:hover {
+    background-color: var(--app-color-hover) !important;
+  }
+}
