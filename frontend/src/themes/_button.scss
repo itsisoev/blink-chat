@@ -1,0 +1,64 @@
+.app-button {
+  &--primary {
+    --app-button-color: var(--app-color-online);
+  }
+
+  &--secondary {
+    --app-button-color: var(--app-color-muted);
+  }
+
+  &--danger {
+    --app-button-color: var(--app-color-danger);
+  }
+
+  &.mat-mdc-outlined-button {
+    color: var(--app-button-color) !important;
+
+    --mdc-outlined-button-label-text-color: var(--app-button-color);
+    --mdc-outlined-button-outline-color: var(--app-button-color);
+
+    // Hover
+    &:hover {
+      background-color: color-mix(
+          in srgb,
+          var(--app-button-color) 10%,
+          transparent
+      ) !important;
+    }
+
+    // Text + icon
+    .mdc-button__label,
+    .mat-icon {
+      color: var(--app-button-color);
+    }
+
+    // Border
+    &::before {
+      border-color: var(--app-button-color);
+    }
+
+    // Ripple
+    .mat-ripple-element {
+      background-color: var(--app-button-color) !important;
+      opacity: 0.12;
+    }
+
+    // Focus
+    &:focus-visible {
+      background-color: color-mix(
+          in srgb,
+          var(--app-button-color) 12%,
+          transparent
+      ) !important;
+    }
+
+    // Pressed
+    &:active {
+      background-color: color-mix(
+          in srgb,
+          var(--app-button-color) 16%,
+          transparent
+      ) !important;
+    }
+  }
+}

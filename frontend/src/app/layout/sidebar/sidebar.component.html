@@ -7,27 +7,11 @@
     </mat-form-field>
   </div>
 
-  <div class="users">
-    @for (user of users(); track user.uuid) {
-      <div class="user">
-        <div class="user__avatar">
-          <img [src]="user.avatar" [alt]="user.name" />
-
-          <span
-            class="user__status"
-            [class.user__status--online]="user.online"
-          ></span>
-        </div>
-
-        <div class="user__info">
-          <span class="user__name">{{ user.name }}</span>
-          <span class="user__presence">
-            {{ user.online ? 'Online' : 'Offline' }}
-          </span>
-        </div>
-      </div>
-    }
-  </div>
+  <app-sidebar-list
+    [items]="users()"
+    (itemSelected)="onUserSelected($event)"
+    (findFriendsClicked)="onFindFriendsClick()"
+  />
 
   <footer class="sidebar__footer">
     <div class="profile">

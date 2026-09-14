@@ -1,0 +1,32 @@
+<div class="list">
+  @for (item of items(); track item.uuid) {
+    <div class="list__item" (click)="onItemClick(item)">
+      <div class="list__item-avatar">
+        <img [src]="item.avatar" [alt]="item.name" />
+
+        <span
+          class="list__item-status"
+          [class.list__item-status--online]="item.online"
+        ></span>
+      </div>
+
+      <div class="list__item-info">
+        <span class="list__item-name">{{ item.name }}</span>
+        <span class="list__item-presence">
+          {{ item.online ? 'Online' : 'Offline' }}
+        </span>
+      </div>
+    </div>
+  } @empty {
+    <div class="list__empty">
+      <mat-icon class="list__empty-icon">person_search</mat-icon>
+      <span class="list__empty-title">No friends yet</span>
+      <span class="list__empty-subtitle">Find people to start chatting</span>
+
+      <button mat-stroked-button  class="list__empty-button app-button app-button--primary" (click)="onFindFriendsClick()">
+        <mat-icon>person_add</mat-icon>
+        Find friends
+      </button>
+    </div>
+  }
+</div>

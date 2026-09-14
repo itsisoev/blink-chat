@@ -6,9 +6,10 @@ import { ThemeService } from '@core/services/theme/theme.service';
 import { IMenuItem } from '@shared/ui-components/ui-menu/ui-menu.interface';
 import { UiMenuComponent } from '@shared/ui-components/ui-menu/ui-menu.component';
 import { PROFILE_MENU_CONST } from '@layout/sidebar/sidebar.constant';
+import { SidebarListComponent } from '@layout/sidebar/components/sidebar-list/sidebar-list.component';
 
 @Component({
-  imports: [MatFormField, MatLabel, MatInput, MatIcon, UiMenuComponent],
+  imports: [MatFormField, MatLabel, MatInput, MatIcon, UiMenuComponent, SidebarListComponent],
   selector: 'app-sidebar',
   styleUrl: './sidebar.component.scss',
   templateUrl: './sidebar.component.html',
@@ -159,5 +160,13 @@ export class SidebarComponent {
     if (item.value === 'theme') {
       this.themeService.toggle();
     }
+  }
+
+  onUserSelected(user: ISidebar): void {
+    console.log('User selected:', user);
+  }
+
+  onFindFriendsClick() {
+    console.log('Friends clicked');
   }
 }
