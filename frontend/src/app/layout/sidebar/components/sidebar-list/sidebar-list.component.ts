@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
-import { ISidebar } from '@layout/sidebar/sidebar.interface';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
+import { IUser } from '@shared/interfaces/user.interface';
 
 @Component({
   imports: [MatIcon, MatButton],
@@ -10,12 +10,12 @@ import { MatButton } from '@angular/material/button';
   templateUrl: './sidebar-list.component.html',
 })
 export class SidebarListComponent {
-  items = input.required<ISidebar[]>();
+  items = input.required<IUser[]>();
 
-  itemSelected = output<ISidebar>();
+  itemSelected = output<IUser>();
   findFriendsClicked = output<void>();
 
-  onItemClick(item: ISidebar): void {
+  onItemClick(item: IUser): void {
     this.itemSelected.emit(item);
   }
 

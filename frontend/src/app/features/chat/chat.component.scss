@@ -1,0 +1,31 @@
+:host {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.chat {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  &__header {
+    flex-shrink: 0;
+  }
+
+  &__message {
+    flex: 1;
+    min-height: 0;
+
+    overflow-y: auto;
+  }
+
+  &__composer {
+    flex-shrink: 0;
+  }
+}
