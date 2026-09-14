@@ -1,1 +1,24 @@
-<p>chat-composer works!</p>
+<div class="chat-composer">
+  <mat-form-field
+    appearance="outline"
+    class="chat-composer__field"
+  >
+    <input
+      #messageInput
+      matInput
+      type="text"
+      placeholder="Write a message..."
+      (keydown.enter)="onSendMessage(messageInput)"
+    />
+  </mat-form-field>
+
+  <button
+    mat-stroked-button
+    class="app-button app-button--primary chat-composer__send"
+    type="button"
+    aria-label="Send message"
+    (click)="onSendMessage(messageInput)"
+  >
+    <mat-icon>send</mat-icon>
+  </button>
+</div>
