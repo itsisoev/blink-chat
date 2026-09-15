@@ -1,0 +1,138 @@
+:host {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  background: var(--app-color-background);
+
+  &__card {
+    width: 100%;
+    max-width: 28rem;
+    padding: 2.5rem;
+    box-sizing: border-box;
+
+    border: 1px solid var(--app-color-border);
+    border-radius: 1.25rem;
+
+    background: var(--app-color-background);
+
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.08),
+    0 0.25rem 0.75rem rgba(0, 0, 0, 0.04);
+
+    transition: box-shadow 200ms ease;
+  }
+
+  &__header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0;
+    color: var(--app-color-text);
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  &__subtitle {
+    margin: 0.5rem 0 0;
+    color: var(--app-color-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  &__field {
+    width: 100%;
+  }
+
+  &__submit {
+    width: 100%;
+    min-height: 3rem;
+    margin-top: 0.5rem;
+
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.35rem;
+
+    margin-top: 1.5rem;
+
+    color: var(--app-color-muted);
+    font-size: 0.875rem;
+  }
+
+  &__link {
+    color: var(--app-color-online);
+    font-weight: 500;
+    text-decoration: none;
+
+    transition: opacity 150ms ease;
+
+    &:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 0;
+    align-items: stretch;
+    justify-content: flex-start;
+
+    &__card {
+      max-width: none;
+      min-height: 100vh;
+      padding: 2rem 1.25rem;
+
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    &__header {
+      margin-bottom: 1.5rem;
+    }
+
+    &__title {
+      font-size: 1.5rem;
+    }
+
+    &__subtitle {
+      font-size: 0.8125rem;
+    }
+
+    &__form {
+      gap: 0.75rem;
+    }
+
+    &__footer {
+      margin-top: 1.25rem;
+    }
+  }
+}

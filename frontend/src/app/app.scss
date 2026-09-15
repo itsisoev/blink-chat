@@ -33,26 +33,18 @@ app-root {
 
   @media (max-width: 768px) {
     &__sidebar {
+      display: none;
       width: 100%;
       flex: 0 0 100%;
     }
 
     &__router {
+      display: flex;
       width: 100%;
       flex: 0 0 100%;
     }
 
-    &--chat {
-      .app__sidebar {
-        display: none;
-      }
-
-      .app__router {
-        display: flex;
-      }
-    }
-
-    &:not(&--chat) {
+    &--sidebar:not(&--chat) {
       .app__sidebar {
         display: block;
       }

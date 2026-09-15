@@ -11,7 +11,6 @@
     --app-button-color: var(--app-color-danger);
   }
 
-  // Text button
   &.mat-mdc-button {
     color: var(--app-button-color) !important;
 
@@ -47,9 +46,22 @@
           transparent
       ) !important;
     }
+
+    &:disabled {
+      color: color-mix(in srgb, var(--app-button-color) 38%, transparent) !important;
+      background-color: color-mix(
+          in srgb,
+          var(--app-button-color) 8%,
+          transparent
+      ) !important;
+      pointer-events: none;
+
+      .mat-icon {
+        color: color-mix(in srgb, var(--app-button-color) 38%, transparent);
+      }
+    }
   }
 
-  // Outlined button
   &.mat-mdc-outlined-button {
     color: var(--app-button-color) !important;
 
@@ -92,6 +104,36 @@
           var(--app-button-color) 16%,
           transparent
       ) !important;
+    }
+
+    &:disabled {
+      color: color-mix(in srgb, var(--app-button-color) 38%, transparent) !important;
+      background-color: color-mix(
+          in srgb,
+          var(--app-button-color) 8%,
+          transparent
+      ) !important;
+      pointer-events: none;
+
+      --mdc-outlined-button-label-text-color: color-mix(
+          in srgb,
+          var(--app-button-color) 38%,
+          transparent
+      );
+      --mdc-outlined-button-outline-color: color-mix(
+          in srgb,
+          var(--app-button-color) 24%,
+          transparent
+      );
+
+      .mdc-button__label,
+      .mat-icon {
+        color: color-mix(in srgb, var(--app-button-color) 38%, transparent);
+      }
+
+      &::before {
+        border-color: color-mix(in srgb, var(--app-button-color) 24%, transparent);
+      }
     }
   }
 }

@@ -1,0 +1,182 @@
+<div class="auth">
+  <div class="auth__card">
+    <div class="auth__header">
+      <h1 class="auth__title">
+        Create account
+      </h1>
+
+      <p class="auth__subtitle">
+        Join Blink Chat and start chatting
+      </p>
+    </div>
+
+    <form
+      class="auth__form"
+      [formGroup]="registrationForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <mat-form-field
+        class="auth__field"
+        appearance="outline"
+      >
+        <mat-label>Username</mat-label>
+
+        <input
+          matInput
+          formControlName="username"
+          autocomplete="username"
+        />
+
+        @if (
+          registrationForm.controls.username.hasError('required') &&
+          registrationForm.controls.username.touched
+          ) {
+          <mat-error>
+            Username is required
+          </mat-error>
+        }
+
+        @if (
+          registrationForm.controls.username.hasError('minlength') &&
+          registrationForm.controls.username.touched
+          ) {
+          <mat-error>
+            Minimum 3 characters
+          </mat-error>
+        }
+
+        @if (
+          registrationForm.controls.username.hasError('maxlength')
+          ) {
+          <mat-error>
+            Maximum 25 characters
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field
+        class="auth__field"
+        appearance="outline"
+      >
+        <mat-label>Password</mat-label>
+
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+          autocomplete="new-password"
+        />
+
+        @if (
+          registrationForm.controls.password.hasError('required') &&
+          registrationForm.controls.password.touched
+          ) {
+          <mat-error>
+            Password is required
+          </mat-error>
+        }
+
+        @if (
+          registrationForm.controls.password.hasError('minlength') &&
+          registrationForm.controls.password.touched
+          ) {
+          <mat-error>
+            Minimum 4 characters
+          </mat-error>
+        }
+
+        @if (
+          registrationForm.controls.password.hasError('maxlength')
+          ) {
+          <mat-error>
+            Maximum 25 characters
+          </mat-error>
+        }
+      </mat-form-field>
+
+      @if (showConfirmPassword()) {
+        <mat-form-field
+          class="auth__field"
+          appearance="outline"
+        >
+          <mat-label>Repeat password</mat-label>
+
+          <input
+            matInput
+            type="password"
+            formControlName="confirmPassword"
+            autocomplete="new-password"
+          />
+
+          @if (
+            registrationForm.controls.confirmPassword.hasError('required') &&
+            registrationForm.controls.confirmPassword.touched
+            ) {
+            <mat-error>
+              Repeat your password
+            </mat-error>
+          }
+
+          @if (
+            registrationForm.hasError('passwordsMismatch') &&
+            registrationForm.controls.confirmPassword.dirty
+            ) {
+            <mat-error>
+              Passwords do not match
+            </mat-error>
+          }
+        </mat-form-field>
+      }
+
+      @if (
+        registrationForm.controls.confirmPassword.hasError('passwordsMismatch') &&
+        registrationForm.controls.confirmPassword.dirty
+        ) {
+        <mat-error>
+          Passwords do not match
+        </mat-error>
+      }
+
+      <div class="registration__avatar">
+        <label
+          class="registration__avatar-label"
+          for="avatar"
+        >
+          Avatar
+        </label>
+
+        <input
+          id="avatar"
+          class="registration__avatar-input"
+          type="file"
+          accept="image/*"
+          (change)="onAvatarSelected($event)"
+        />
+
+        <span class="registration__avatar-hint">
+          Optional
+        </span>
+      </div>
+
+      <button
+        class="app-button app-button--primary auth__submit"
+        mat-stroked-button
+        type="submit"
+        [disabled]="registrationForm.invalid"
+      >
+        Create account
+      </button>
+    </form>
+
+    <div class="auth__footer">
+      <span>Already have an account?</span>
+
+      <a
+      class="auth__link"
+      routerLink="/auth/login"
+      >
+      Log in
+      </a>
+    </div>
+  </div>
+</div>
