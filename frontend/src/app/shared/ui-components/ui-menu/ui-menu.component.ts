@@ -7,7 +7,6 @@ import { IMenuItem } from '@shared/ui-components/ui-menu/ui-menu.interface';
 @Component({
   imports: [MatButtonModule, MatMenuModule, MatIcon],
   selector: 'app-ui-menu',
-  styleUrl: './ui-menu.component.scss',
   templateUrl: './ui-menu.component.html',
 })
 export class UiMenuComponent {
