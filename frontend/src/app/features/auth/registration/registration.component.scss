@@ -1,0 +1,70 @@
+.registration {
+  &__avatar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  &__avatar-label {
+    color: var(--app-color-text);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  &__avatar-input {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.65rem 0.75rem;
+    box-sizing: border-box;
+
+    border: 1px dashed var(--app-color-border);
+    border-radius: 0.75rem;
+
+    color: var(--app-color-text);
+    background: var(--app-color-background);
+
+    font: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+
+    transition: border-color 150ms ease,
+    background-color 150ms ease;
+
+    &:hover {
+      border-color: var(--app-color-online);
+      background: var(--app-color-hover);
+    }
+
+    &:focus {
+      outline: 2px solid var(--app-color-online);
+      outline-offset: 1px;
+    }
+
+    &::file-selector-button {
+      margin-right: 0.75rem;
+      padding: 0.4rem 0.85rem;
+
+      border: none;
+      border-radius: 0.5rem;
+
+      color: var(--app-color-online);
+      background: color-mix(in srgb, var(--app-color-online) 12%, transparent);
+
+      font: inherit;
+      font-weight: 500;
+      cursor: pointer;
+
+      transition: background-color 150ms ease;
+
+      &:hover {
+        background: color-mix(in srgb, var(--app-color-online) 20%, transparent);
+      }
+    }
+  }
+
+  &__avatar-hint {
+    color: var(--app-color-muted);
+    font-size: 0.75rem;
+  }
+}

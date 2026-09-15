@@ -1,10 +1,13 @@
 <div
   class="app"
   [class.app--chat]="isChatRoute()"
+  [class.app--sidebar]="showSidebar()"
 >
-  <div class="app__sidebar">
-    <app-sidebar />
-  </div>
+  @if (showSidebar()) {
+    <div class="app__sidebar">
+      <app-sidebar />
+    </div>
+  }
 
   <div class="app__router">
     <router-outlet />

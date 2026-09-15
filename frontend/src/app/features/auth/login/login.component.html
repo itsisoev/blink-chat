@@ -1,0 +1,106 @@
+<div class="auth">
+  <div class="auth__card">
+    <div class="auth__header">
+      <h1 class="auth__title">
+        Welcome back
+      </h1>
+
+      <p class="auth__subtitle">
+        Log in to continue to Blink Chat
+      </p>
+    </div>
+
+    <form
+      class="auth__form"
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <mat-form-field
+        class="auth__field"
+        appearance="outline"
+      >
+        <mat-label>Username</mat-label>
+
+        <input
+          matInput
+          formControlName="username"
+          autocomplete="username"
+        />
+
+        @if (loginForm.controls.username.hasError('required') &&
+        loginForm.controls.username.touched) {
+          <mat-error>
+            Username is required
+          </mat-error>
+        }
+
+        @if (loginForm.controls.username.hasError('minlength') &&
+        loginForm.controls.username.touched) {
+          <mat-error>
+            Minimum 3 characters
+          </mat-error>
+        }
+
+        @if (loginForm.controls.username.hasError('maxlength')) {
+          <mat-error>
+            Maximum 25 characters
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field
+        class="auth__field"
+        appearance="outline"
+      >
+        <mat-label>Password</mat-label>
+
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+        />
+
+        @if (loginForm.controls.password.hasError('required') &&
+        loginForm.controls.password.touched) {
+          <mat-error>
+            Password is required
+          </mat-error>
+        }
+
+        @if (loginForm.controls.password.hasError('minlength') &&
+        loginForm.controls.password.touched) {
+          <mat-error>
+            Minimum 4 characters
+          </mat-error>
+        }
+
+        @if (loginForm.controls.password.hasError('maxlength')) {
+          <mat-error>
+            Maximum 25 characters
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <button
+        class="app-button app-button--primary auth__submit"
+        mat-stroked-button
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        Log in
+      </button>
+    </form>
+
+    <div class="auth__footer">
+      <span>Don't have an account?</span>
+
+      <a
+      class="auth__link"
+      routerLink="/auth/registration"
+      >
+      Create one
+      </a>
+    </div>
+  </div>
+</div>
