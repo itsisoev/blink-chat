@@ -3,45 +3,32 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import * as argon2 from 'argon2';
 import { UsersService } from '../users/users.service';
 import { StorageService } from '../storage/storage.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
-import { UserCode } from '../common/message-code/user-code.enum';
-import { AuthCode } from '../common/message-code/auth-code.enum';
+import { PasswordService } from './services/password.service';
+import { TokenService } from './services/token.service';
 import { IUploadedFile } from '../storage/uploaded-file.interface';
 import { createApiResponse } from '../common/utils/create-api-response';
 import { IApiResponse } from '../common/http/interfaces/api-response.interface';
-import { IJwtPayload } from './interfaces/jwt-payload.interface';
+import { UserCode } from '../common/message-code/user-code.enum';
+import { AuthCode } from '../common/message-code/auth-code.enum';
 import { IAuthTokens } from './interfaces/auth-tokens.interface';
-import { IJwtTokensConfig } from './interfaces/jwt-token-config.interface';
+import { IJwtPayload } from './interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
-  private readonly jwtConfig: IJwtTokensConfig = {
-    access: {
-      secret: process.env.JWT_ACCESS_SECRET ?? 'access-secret',
-      expiresIn: (process.env.JWT_ACCESS_EXPIRES ??
-        '15m') as IJwtTokensConfig['access']['expiresIn'],
-    },
-    refresh: {
-      secret: process.env.JWT_REFRESH_SECRET ?? 'refresh-secret',
-      expiresIn: (process.env.JWT_REFRESH_EXPIRES ??
-        '7d') as IJwtTokensConfig['refresh']['expiresIn'],
-    },
-  };
-
   constructor(
     private readonly usersService: UsersService,
     private readonly storageService: StorageService,
-    private readonly jwtService: JwtService,
+    private readonly passwordService: PasswordService,
+    private readonly tokenService: TokenService,
   ) {}
 
   async register(registerDto: RegisterDto, avatar?: IUploadedFile) {
-    const existingUser = await this.usersService.findByUsername(
+    const existingUser = await this.usersService.findPublicUserByUsername(
       registerDto.userName,
     );
 
@@ -51,7 +38,9 @@ export class AuthService {
       });
     }
 
-    const passwordHash = await argon2.hash(registerDto.password);
+    const passwordHash = await this.passwordService.hashPassword(
+      registerDto.password,
+    );
 
     const avatarUrl = avatar
       ? await this.storageService.saveAvatar(avatar)
@@ -75,25 +64,33 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    const user = await this.usersService.findByUsername(loginDto.userName);
+    const user = await this.usersService.findUserWithPasswordByUsername(
+      loginDto.userName,
+    );
 
     if (!user) {
-      throw new UnauthorizedException({ code: AuthCode.INVALID_CREDENTIALS });
+      throw new UnauthorizedException({
+        code: AuthCode.INVALID_CREDENTIALS,
+      });
     }
 
-    const isPasswordValid = await argon2.verify(
+    const isPasswordValid = await this.passwordService.verifyPassword(
       user.passwordHash,
       loginDto.password,
     );
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException({ code: AuthCode.INVALID_CREDENTIALS });
+      throw new UnauthorizedException({
+        code: AuthCode.INVALID_CREDENTIALS,
+      });
     }
 
-    const tokens = await this.generateTokens({
+    const payload: IJwtPayload = {
       sub: user.uuid,
       userName: user.userName,
-    });
+    };
+
+    const tokens = await this.tokenService.generateTokens(payload);
 
     return createApiResponse(
       {
@@ -115,9 +112,8 @@ export class AuthService {
     let payload: IJwtPayload;
 
     try {
-      payload = await this.jwtService.verifyAsync<IJwtPayload>(
+      payload = await this.tokenService.verifyRefreshToken(
         refreshTokenDto.refreshToken,
-        { secret: this.jwtConfig.refresh.secret },
       );
     } catch {
       throw new UnauthorizedException({
@@ -125,36 +121,25 @@ export class AuthService {
       });
     }
 
-    const user = await this.usersService.findByUsername(payload.userName);
+    const user = await this.usersService.findPublicUserByUuid(payload.sub);
 
     if (!user) {
-      throw new UnauthorizedException({ code: AuthCode.UNAUTHORIZED });
+      throw new UnauthorizedException({
+        code: AuthCode.UNAUTHORIZED,
+      });
     }
 
-    const tokens = await this.generateTokens({
+    const newPayload: IJwtPayload = {
       sub: user.uuid,
       userName: user.userName,
-    });
+    };
+
+    const tokens = await this.tokenService.generateTokens(newPayload);
 
     return createApiResponse(tokens, AuthCode.TOKEN_REFRESHED);
   }
 
   logout(): IApiResponse<null> {
     return createApiResponse(null, AuthCode.USER_LOGGED_OUT);
-  }
-
-  private async generateTokens(payload: IJwtPayload): Promise<IAuthTokens> {
-    const [accessToken, refreshToken] = await Promise.all([
-      this.jwtService.signAsync(payload, {
-        secret: this.jwtConfig.access.secret,
-        expiresIn: this.jwtConfig.access.expiresIn,
-      }),
-      this.jwtService.signAsync(payload, {
-        secret: this.jwtConfig.refresh.secret,
-        expiresIn: this.jwtConfig.refresh.expiresIn,
-      }),
-    ]);
-
-    return { accessToken, refreshToken };
   }
 }
