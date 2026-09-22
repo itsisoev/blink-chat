@@ -11,6 +11,11 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
+import {
+  imageFileValidator,
+  MAX_IMAGE_SIZE,
+  maxFileSizeValidator,
+} from '@shared/validators/file.validator';
 
 const passwordsMatchValidator: ValidatorFn = (
   control: AbstractControl,
@@ -37,12 +42,9 @@ export class RegistrationComponent {
 
   readonly registrationForm = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-
     password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(25)]],
-
     confirmPassword: ['', passwordsMatchValidator],
-
-    avatar: [null as File | null],
+    avatar: [null as File | null, [imageFileValidator, maxFileSizeValidator(MAX_IMAGE_SIZE)]],
   });
 
   readonly showConfirmPassword = toSignal(
