@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -11,11 +11,14 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
+
 import {
   imageFileValidator,
   MAX_IMAGE_SIZE,
   maxFileSizeValidator,
 } from '@shared/validators/file.validator';
+import { RegistrationStore } from '@features/auth/registration/store/registration.store';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 const passwordsMatchValidator: ValidatorFn = (
   control: AbstractControl,
@@ -31,16 +34,26 @@ const passwordsMatchValidator: ValidatorFn = (
 };
 
 @Component({
-  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatButton, RouterLink],
+  imports: [
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatError,
+    MatButton,
+    RouterLink,
+    MatProgressSpinner,
+  ],
+  providers: [RegistrationStore],
   selector: 'app-registration',
   styleUrls: ['./registration.component.scss', '../auth.scss'],
   templateUrl: './registration.component.html',
 })
 export class RegistrationComponent {
+  readonly registrationStore = inject(RegistrationStore);
   private readonly fb = inject(FormBuilder);
-  private readonly destroyRef = inject(DestroyRef);
 
-  readonly registrationForm = this.fb.group({
+  readonly registrationForm = this.fb.nonNullable.group({
     username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
     password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(25)]],
     confirmPassword: ['', passwordsMatchValidator],
@@ -48,7 +61,7 @@ export class RegistrationComponent {
   });
 
   readonly showConfirmPassword = toSignal(
-    this.registrationForm.controls.password.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)),
+    this.registrationForm.controls.password.valueChanges.pipe(takeUntilDestroyed()),
     {
       initialValue: '',
     },
@@ -58,11 +71,12 @@ export class RegistrationComponent {
     const passwordControl = this.registrationForm.controls.password;
     const confirmPasswordControl = this.registrationForm.controls.confirmPassword;
 
-    passwordControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((password) => {
+    passwordControl.valueChanges.pipe(takeUntilDestroyed()).subscribe((password) => {
       if (password) {
         confirmPasswordControl.setValidators([Validators.required, passwordsMatchValidator]);
       } else {
         confirmPasswordControl.clearValidators();
+
         confirmPasswordControl.reset('', {
           emitEvent: false,
         });
@@ -82,19 +96,17 @@ export class RegistrationComponent {
   }
 
   onSubmit(): void {
-    if (this.registrationForm.invalid) {
+    if (this.registrationForm.invalid || this.registrationStore.loading()) {
       this.registrationForm.markAllAsTouched();
       return;
     }
 
     const { username, password, avatar } = this.registrationForm.getRawValue();
 
-    const payload = {
-      username: username?.trim().toLowerCase(),
+    this.registrationStore.register({
+      userName: username.trim().toLowerCase(),
       password,
       avatar,
-    };
-
-    console.log(payload);
+    });
   }
 }
