@@ -5,9 +5,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { LoginStore } from '@features/auth/login/store/login.store';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink, MatButtonModule, MatFormFieldModule, MatInputModule],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinner,
+  ],
   selector: 'app-login',
   styleUrls: ['../auth.scss'],
   templateUrl: './login.component.html',

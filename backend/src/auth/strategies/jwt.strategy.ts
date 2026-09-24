@@ -32,6 +32,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     return {
       uuid: user.uuid,
       userName: user.userName,
+      avatarUrl: user.avatarUrl,
+      isOnline: user.isOnline,
     };
   }
 }

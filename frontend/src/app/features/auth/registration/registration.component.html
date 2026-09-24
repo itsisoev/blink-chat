@@ -164,7 +164,11 @@
         type="submit"
         [disabled]="registrationForm.invalid"
       >
-        Create account
+        @if(registrationStore.loading()) {
+          <mat-spinner diameter="20" />
+        }@else {
+          Create account
+        }
       </button>
     </form>
 

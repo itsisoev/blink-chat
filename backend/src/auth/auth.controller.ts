@@ -15,6 +15,7 @@ import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import type { Request } from 'express';
+import { createApiResponse } from '../common/utils/create-api-response';
 
 @Controller('auth')
 export class AuthController {
@@ -48,6 +49,6 @@ export class AuthController {
   @Get('profile')
   @UseGuards(JwtAuthGuard)
   getProfile(@Req() req: Request) {
-    return req.user;
+    return createApiResponse(req.user);
   }
 }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
 import { Observable, tap } from 'rxjs';
 import {
+  IAuthUser,
   ILoginRequest,
   ILoginResponse,
   IRegisterRequest,
@@ -19,7 +20,16 @@ export class AuthService {
   private readonly apiUrl = `${environment.apiUrl}/auth`;
 
   register(request: IRegisterRequest): Observable<IApiResponse<IRegisterResponse>> {
-    return this.http.post<IApiResponse<IRegisterResponse>>(`${this.apiUrl}/register`, request);
+    const formData = new FormData();
+
+    formData.append('userName', request.userName);
+    formData.append('password', request.password);
+
+    if (request.avatar) {
+      formData.append('avatar', request.avatar);
+    }
+
+    return this.http.post<IApiResponse<IRegisterResponse>>(`${this.apiUrl}/register`, formData);
   }
 
   login(request: ILoginRequest): Observable<IApiResponse<ILoginResponse>> {
@@ -32,5 +42,9 @@ export class AuthService {
         }
       }),
     );
+  }
+
+  getProfile(): Observable<IApiResponse<IAuthUser>> {
+    return this.http.get<IApiResponse<IAuthUser>>(`${this.apiUrl}/profile`);
   }
 }

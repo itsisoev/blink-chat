@@ -88,7 +88,11 @@
         type="submit"
         [disabled]="loginForm.invalid"
       >
-        Log in
+        @if (loginStore.loading()) {
+          <mat-spinner diameter="20" />
+        } @else {
+          Log in
+        }
       </button>
     </form>
 

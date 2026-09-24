@@ -21,7 +21,7 @@ export class ToastrService {
 
   private show(message: string, type: 'success' | 'error' | 'info'): void {
     this.snackBar.open(message, 'Закрыть', {
-      duration: 4000,
+      duration: 7000,
       horizontalPosition: 'end',
       verticalPosition: 'top',
       panelClass: [`toast-${type}`],

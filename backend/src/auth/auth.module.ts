@@ -7,6 +7,7 @@ import { PasswordService } from './services/password.service';
 import { TokenService } from './services/token.service';
 import { UsersModule } from '../users/users.module';
 import { StorageModule } from '../storage/storage.module';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { StorageModule } from '../storage/storage.module';
     StorageModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, PasswordService, TokenService],
+  providers: [AuthService, PasswordService, TokenService, JwtStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}
