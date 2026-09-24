@@ -1,8 +1,7 @@
-import { DestroyRef, inject, signal, Service, computed } from '@angular/core';
+import { inject, signal, Service, computed } from '@angular/core';
 import { IAuthUser } from '@core/interfaces/auth';
 import { AuthService } from '@core/services/auth/auth.service';
 import { TokenStorageService } from '@core/services/token-storage/token-storage.service';
-import { ToastrService } from '@core/services/toastr/toastr.service';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { IApiResponse } from '@core/interfaces/http/api-response.interface';
 
